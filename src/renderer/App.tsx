@@ -1,50 +1,38 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
+import ExamplePage from './pages/ExamplePage';
 import './App.css';
+// internationalization
+import { IntlProvider } from 'react-intl';
 
-function Hello() {
-  return (
-    <div>
-      <div className="Hello">
-        <img width="200" alt="icon" src={icon} />
-      </div>
-      <h1>electron-react-boilerplate</h1>
-      <div className="Hello">
-        <a
-          href="https://electron-react-boilerplate.js.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              📚
-            </span>
-            Read our docs
-          </button>
-        </a>
-        <a
-          href="https://github.com/sponsors/electron-react-boilerplate"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="folded hands">
-              🙏
-            </span>
-            Donate
-          </button>
-        </a>
-      </div>
-    </div>
-  );
-}
+import messagesEn from './locales/en.json';
+import messagesZh from './locales/zh.json';
+
+import { Requester } from './Requester';
+import { getUserLanguage } from './utils';
+
+const messages = {
+  en: messagesEn,
+  zh: messagesZh,
+};
 
 export default function App() {
+
+  const userInfo = Requester.postUserInfo("");
+  const pageProps = {
+    user: userInfo
+  }
+  const selectedLanguage = getUserLanguage()
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Hello />} />
-      </Routes>
-    </Router>
+    <IntlProvider
+      locale={selectedLanguage}
+      messages={messages[selectedLanguage]}
+    >
+      <Router>
+        <Routes>
+          <Route path="/" element={<ExamplePage props={pageProps} />} />
+        </Routes>
+      </Router>
+    </IntlProvider>
   );
 }
