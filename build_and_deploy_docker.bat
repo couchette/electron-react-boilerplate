@@ -1,7 +1,5 @@
-@ echo off
-npm run build:renderer
-docker image ls
-docker ps -a
+@REM @ echo off
+call npm run build:renderer
 docker stop electron-react-app && docker rm electron-react-app
 docker rmi electron-react-app
 docker build -t electron-react-app -f dockerfile_deploy .
