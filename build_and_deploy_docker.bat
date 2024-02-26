@@ -1,4 +1,4 @@
-@REM @ echo off
+@ echo off
 call npm run build:renderer
 docker stop electron-react-app && docker rm electron-react-app
 docker rmi electron-react-app
